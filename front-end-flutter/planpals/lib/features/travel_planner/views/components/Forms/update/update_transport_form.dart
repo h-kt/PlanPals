@@ -10,7 +10,10 @@ import 'package:provider/provider.dart';
 class UpdateTransportForm extends StatefulWidget {
   final Transport transport;
 
-  const UpdateTransportForm({super.key, required this.transport,});
+  const UpdateTransportForm({
+    super.key,
+    required this.transport,
+  });
 
   @override
   _UpdateTransportFormState createState() => _UpdateTransportFormState();
@@ -39,8 +42,9 @@ class _UpdateTransportFormState extends State<UpdateTransportForm> {
 
   @override
   Widget build(BuildContext context) {
-    final PlannerViewModel plannerViewModel = Provider.of<PlannerViewModel>(context);
-    final User user = Provider.of<UserViewModel>(context).currentUser!;
+    final PlannerViewModel plannerViewModel =
+        Provider.of<PlannerViewModel>(context);
+    final PPUser user = Provider.of<UserViewModel>(context).currentUser!;
     final Transport transport = widget.transport;
 
     return Scaffold(
@@ -53,11 +57,11 @@ class _UpdateTransportFormState extends State<UpdateTransportForm> {
           key: _formKey,
           child: ListView(
             children: [
-
               // Arrival Airport Field
               TextFormField(
                 controller: _typeController,
-                decoration: const InputDecoration(labelText: 'Type of transportation'),
+                decoration:
+                    const InputDecoration(labelText: 'Type of transportation'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the type';
@@ -71,7 +75,8 @@ class _UpdateTransportFormState extends State<UpdateTransportForm> {
               // Transport Number Field
               TextFormField(
                 controller: _detailsController,
-                decoration: const InputDecoration(labelText: 'Transportation Details'),
+                decoration:
+                    const InputDecoration(labelText: 'Transportation Details'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the transportation details';
@@ -126,14 +131,15 @@ class _UpdateTransportFormState extends State<UpdateTransportForm> {
 
                     // Creted an updated transport
                     Transport updatedTransport = Transport(
-                      createdBy: transport.createdBy, 
-                      id: transport.id, 
-                      plannerId: transport.plannerId, 
-                      type: _typeController.text, 
-                      details: _detailsController.text, 
-                      vehicleId: transport.vehicleId, 
-                      departureTime: _departureDateTime!, 
-                      arrivalTime: _arrivalDateTime!,);
+                      createdBy: transport.createdBy,
+                      id: transport.id,
+                      plannerId: transport.plannerId,
+                      type: _typeController.text,
+                      details: _detailsController.text,
+                      vehicleId: transport.vehicleId,
+                      departureTime: _departureDateTime!,
+                      arrivalTime: _arrivalDateTime!,
+                    );
 
                     // request update
                     plannerViewModel.updateTransport(updatedTransport, user.id);

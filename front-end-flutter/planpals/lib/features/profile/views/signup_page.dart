@@ -8,6 +8,7 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _preferredNameController =
       TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -70,6 +71,24 @@ class SignUpPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 // Password Field
                 TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.lock),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an email';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                // Password Field
+                TextFormField(
                   controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
@@ -91,9 +110,9 @@ class SignUpPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState?.validate() == true) {
-                      User? fetchedUser = await userViewModel
+                      PPUser? fetchedUser = await userViewModel
                           .fetchUserByUserName(_usernameController.text);
-        
+
                       print('SIGN UP: ${userViewModel.currentUser}');
 
                       if (fetchedUser != null) {
@@ -105,19 +124,20 @@ class SignUpPage extends StatelessWidget {
                           ),
                         );
                         return;
-                      } 
-                        // Add user
-                        print('Adding user');
-                        User user = User(
-                          id: '',
-                          userName: _usernameController.text,
-                          preferredName: _preferredNameController.text,
-                        );
-                        userViewModel.addUser(user);
+                      }
+                      // Add user
+                      print('Adding user');
+                      PPUser user = PPUser(
+                        id: '',
+                        userName: _usernameController.text,
+                        preferredName: _preferredNameController.text,
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      );
+                      userViewModel.addUser(user);
 
-                        // Navigate to the home page
-                        Navigator.pushReplacementNamed(context, '/login');
-                      
+                      // Navigate to the home page
+                      Navigator.pushReplacementNamed(context, '/login');
                     }
                   },
                   style: ElevatedButton.styleFrom(

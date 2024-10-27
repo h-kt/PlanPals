@@ -26,18 +26,21 @@ class DestinationCard extends StatefulWidget {
 }
 
 class _DestinationCardState extends State<DestinationCard> {
-  User? user;
+  PPUser? user;
 
   @override
-  void initState( ) {
+  void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       user = Provider.of<UserViewModel>(context, listen: false).currentUser;
-      Provider.of<PlannerViewModel>(context, listen: false).fetchAccommodationsByDestinationId(widget.destination.plannerId, widget.destination.destinationId, user!.id);
-      Provider.of<PlannerViewModel>(context, listen: false).fetchActivitiesByDestinationId(widget.destination.plannerId, widget.destination.destinationId, user!.id);
+      Provider.of<PlannerViewModel>(context, listen: false)
+          .fetchAccommodationsByDestinationId(widget.destination.plannerId,
+              widget.destination.destinationId, user!.id);
+      Provider.of<PlannerViewModel>(context, listen: false)
+          .fetchActivitiesByDestinationId(widget.destination.plannerId,
+              widget.destination.destinationId, user!.id);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +65,6 @@ class _DestinationCardState extends State<DestinationCard> {
             Text('${widget.destination.activities.length} activities'),
           ],
         ),
-        
         children: [
           GenericListView(
             itemList: plannerViewModel.accommodations,
@@ -81,13 +83,13 @@ class _DestinationCardState extends State<DestinationCard> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => CreateAccommodationForm(
-                          destination: widget.destination,)),
+                          destination: widget.destination,
+                        )),
               );
             },
             headerStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             headerIconSize: 25,
           ),
-
           GenericListView(
             itemList: plannerViewModel.activities,
             itemBuilder: (activity) => ActivityCard(
@@ -105,7 +107,8 @@ class _DestinationCardState extends State<DestinationCard> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => CreateActivityForm(
-                          destination: widget.destination,)),
+                          destination: widget.destination,
+                        )),
               );
             },
             headerStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),

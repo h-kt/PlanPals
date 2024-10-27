@@ -39,8 +39,10 @@ class _UpdateDestinationFormState extends State<UpdateDestinationForm> {
 
   @override
   Widget build(BuildContext context) {
-    final PlannerViewModel plannerViewModel = Provider.of<PlannerViewModel>(context, listen: false);
-    final User user = Provider.of<UserViewModel>(context, listen: false).currentUser!;
+    final PlannerViewModel plannerViewModel =
+        Provider.of<PlannerViewModel>(context, listen: false);
+    final PPUser user =
+        Provider.of<UserViewModel>(context, listen: false).currentUser!;
     final Destination destination = widget.destination;
 
     return Scaffold(
@@ -113,17 +115,18 @@ class _UpdateDestinationFormState extends State<UpdateDestinationForm> {
 
                     // Create an updated destination
                     Destination updatedDestination = Destination(
-                      createdBy: destination.createdBy, 
-                      destinationId: destination.destinationId, 
-                      plannerId: destination.plannerId, 
-                      name: _nameController.text, 
-                      startDate: _startDate!, 
-                      endDate: _endDate!, 
-                      activities: destination.activities, 
-                      accommodations: destination.accommodations);
+                        createdBy: destination.createdBy,
+                        destinationId: destination.destinationId,
+                        plannerId: destination.plannerId,
+                        name: _nameController.text,
+                        startDate: _startDate!,
+                        endDate: _endDate!,
+                        activities: destination.activities,
+                        accommodations: destination.accommodations);
 
                     // Update the destination
-                    await plannerViewModel.updateDestination(updatedDestination, user.id);
+                    await plannerViewModel.updateDestination(
+                        updatedDestination, user.id);
 
                     // Close the form screen
                     Navigator.pop(context);

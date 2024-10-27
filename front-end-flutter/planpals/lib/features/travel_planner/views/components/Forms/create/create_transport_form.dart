@@ -27,8 +27,9 @@ class _CreateTransportFormState extends State<CreateTransportForm> {
 
   @override
   Widget build(BuildContext context) {
-    final PlannerViewModel plannerViewModel = Provider.of<PlannerViewModel>(context);
-    final User? user = Provider.of<UserViewModel>(context).currentUser;
+    final PlannerViewModel plannerViewModel =
+        Provider.of<PlannerViewModel>(context);
+    final PPUser? user = Provider.of<UserViewModel>(context).currentUser;
 
     final Planner planner = widget.planner;
     final String plannerId = planner.plannerId;
@@ -43,11 +44,11 @@ class _CreateTransportFormState extends State<CreateTransportForm> {
           key: _formKey,
           child: ListView(
             children: [
-
               // Arrival Airport Field
               TextFormField(
                 controller: _typeController,
-                decoration: const InputDecoration(labelText: 'Type of transportation'),
+                decoration:
+                    const InputDecoration(labelText: 'Type of transportation'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the type';
@@ -61,7 +62,8 @@ class _CreateTransportFormState extends State<CreateTransportForm> {
               // Transport Number Field
               TextFormField(
                 controller: _detailsController,
-                decoration: const InputDecoration(labelText: 'Transportation Details'),
+                decoration:
+                    const InputDecoration(labelText: 'Transportation Details'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the transportation details';
@@ -105,7 +107,8 @@ class _CreateTransportFormState extends State<CreateTransportForm> {
                 onPressed: () async {
                   if (_formKey.currentState?.validate() == true) {
                     // Validate custom date logic
-                    String? dateError = TransportValidator.validateDates(_departureDateTime, _arrivalDateTime);
+                    String? dateError = TransportValidator.validateDates(
+                        _departureDateTime, _arrivalDateTime);
                     if (dateError != null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(dateError)),
@@ -119,15 +122,17 @@ class _CreateTransportFormState extends State<CreateTransportForm> {
                       type: _typeController.text,
                       details: _detailsController.text,
                       departureTime: _departureDateTime!.toUtc(),
-                      arrivalTime: _arrivalDateTime!.toUtc(), 
-                      plannerId: plannerId, 
-                      id: '', 
+                      arrivalTime: _arrivalDateTime!.toUtc(),
+                      plannerId: plannerId,
+                      id: '',
                       vehicleId: '',
                     );
 
-                    newTransport = await plannerViewModel.addTransport(newTransport);
+                    newTransport =
+                        await plannerViewModel.addTransport(newTransport);
 
-                    planner.transportations.add(newTransport.id); // Add new transport's ID to planner
+                    planner.transportations.add(
+                        newTransport.id); // Add new transport's ID to planner
 
                     // Close the form screen
                     Navigator.pop(context);

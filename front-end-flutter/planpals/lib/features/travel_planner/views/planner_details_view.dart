@@ -25,7 +25,7 @@ class PlannerDetailsView extends StatefulWidget {
 }
 
 class _PlannerDetailsViewState extends State<PlannerDetailsView> {
-  User? user;
+  PPUser? user;
   bool functional = false;
 
   @override
@@ -33,7 +33,8 @@ class _PlannerDetailsViewState extends State<PlannerDetailsView> {
     super.initState();
     Planner travelPlanner = widget.travelPlanner; // get planner from widget
     WidgetsBinding.instance.addPostFrameCallback((_) {
-    user = Provider.of<UserViewModel>(context, listen: false).currentUser;  // get user from provider
+      user = Provider.of<UserViewModel>(context, listen: false)
+          .currentUser; // get user from provider
       // fetch destinations and transports for planner
       Provider.of<PlannerViewModel>(context, listen: false)
           .fetchDestinationsByPlannerId(travelPlanner.plannerId, user!.id);
@@ -41,12 +42,10 @@ class _PlannerDetailsViewState extends State<PlannerDetailsView> {
           .fetchTransportsByPlannerId(travelPlanner.plannerId, user!.id);
 
       if (user != null) {
-      functional = widget.travelPlanner.rwUsers.contains(user!.id);
-    }
+        functional = widget.travelPlanner.rwUsers.contains(user!.id);
+      }
     });
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -93,11 +92,10 @@ class _PlannerDetailsViewState extends State<PlannerDetailsView> {
                   trailing: IconButton(
                     onPressed: () {
                       showDialog(
-                        context: context,
-                        builder: (context) => InviteUserDialog(
-                          // TODO: Add invite functionality
-                        )
-                      );
+                          context: context,
+                          builder: (context) => InviteUserDialog(
+                              // TODO: Add invite functionality
+                              ));
                     },
                     icon: const Icon(
                       Icons.group_add,
@@ -120,8 +118,9 @@ class _PlannerDetailsViewState extends State<PlannerDetailsView> {
                     ),
                   ),
                   title: const Text(
-                      'Description', 
-                      style: TextStyle(fontWeight: FontWeight.bold),),
+                    'Description',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   subtitle: Text(widget.travelPlanner.description),
                 ),
                 ListTile(
@@ -139,15 +138,15 @@ class _PlannerDetailsViewState extends State<PlannerDetailsView> {
                     ),
                   ),
                   title: Text(
-                      '${widget.travelPlanner.endDate.difference(widget.travelPlanner.startDate).inDays} Days', 
-                      style: const TextStyle(fontWeight: FontWeight.bold),),
-                  subtitle:
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${destinations.length} Destinations'),
-                          Text('${transportations.length} Transportations'), 
-                        ]),
+                    '${widget.travelPlanner.endDate.difference(widget.travelPlanner.startDate).inDays} Days',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${destinations.length} Destinations'),
+                        Text('${transportations.length} Transportations'),
+                      ]),
                 ),
                 ListTile(
                   leading: Container(
@@ -163,7 +162,10 @@ class _PlannerDetailsViewState extends State<PlannerDetailsView> {
                       size: 30, // Icon size // Icon color
                     ),
                   ),
-                  title: const Text('Members', style: TextStyle(fontWeight: FontWeight.bold),),
+                  title: const Text(
+                    'Members',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

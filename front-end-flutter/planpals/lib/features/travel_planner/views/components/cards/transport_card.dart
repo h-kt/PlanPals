@@ -13,18 +13,19 @@ class TransportCard extends StatelessWidget {
   final bool functional;
 
   const TransportCard(
-      {super.key,
-      required this.transport,
-      required this.functional});
+      {super.key, required this.transport, required this.functional});
 
   @override
   Widget build(BuildContext context) {
-    PlannerViewModel plannerViewModel = Provider.of<PlannerViewModel>(context, listen: false);
-    User user = Provider.of<UserViewModel>(context, listen: false).currentUser!;
+    PlannerViewModel plannerViewModel =
+        Provider.of<PlannerViewModel>(context, listen: false);
+    PPUser user =
+        Provider.of<UserViewModel>(context, listen: false).currentUser!;
 
     return Card(
       child: ListTile(
-          title: Text(transport.type, style: const TextStyle(fontWeight: FontWeight.bold)),
+          title: Text(transport.type,
+              style: const TextStyle(fontWeight: FontWeight.bold)),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -42,24 +43,23 @@ class TransportCard extends StatelessWidget {
                       icon: const Icon(Icons.edit),
                       onPressed: () {
                         Navigator.push(
-                          context, 
-                          MaterialPageRoute(builder: (context) => UpdateTransportForm(transport: transport)));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    UpdateTransportForm(transport: transport)));
                       }, // Handle the edit logic
                       tooltip: 'Edit',
-                      
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () {
                         showDialog(
-                          context: context, 
-                          builder: (context) => DeleteMessage(onDelete: () {
-                            
-                            // Delete Transport
-                            plannerViewModel.deleteTransport(transport, user.id);
-
-                          }));
-
+                            context: context,
+                            builder: (context) => DeleteMessage(onDelete: () {
+                                  // Delete Transport
+                                  plannerViewModel.deleteTransport(
+                                      transport, user.id);
+                                }));
                       }, // Handle the delete logic
                     ),
                   ],

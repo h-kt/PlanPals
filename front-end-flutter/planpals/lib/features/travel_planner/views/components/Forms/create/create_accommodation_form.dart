@@ -14,7 +14,8 @@ class CreateAccommodationForm extends StatefulWidget {
   const CreateAccommodationForm({super.key, required this.destination});
 
   @override
-  _CreateAccommodationFormState createState() => _CreateAccommodationFormState();
+  _CreateAccommodationFormState createState() =>
+      _CreateAccommodationFormState();
 }
 
 class _CreateAccommodationFormState extends State<CreateAccommodationForm> {
@@ -29,10 +30,9 @@ class _CreateAccommodationFormState extends State<CreateAccommodationForm> {
   Widget build(BuildContext context) {
     final PlannerViewModel plannerViewModel =
         Provider.of<PlannerViewModel>(context, listen: false);
-    final User? user = Provider.of<UserViewModel>(context).currentUser;
+    final PPUser? user = Provider.of<UserViewModel>(context).currentUser;
 
     final Destination destination = widget.destination;
-
 
     return Scaffold(
       appBar: AppBar(
@@ -121,18 +121,16 @@ class _CreateAccommodationFormState extends State<CreateAccommodationForm> {
                       address: _addressController.text,
                       checkInDate: _checkIn!,
                       checkOutDate: _checkOut!,
-                      destinationId: destination.destinationId, 
+                      destinationId: destination.destinationId,
                       accommodationId: '',
                     );
 
                     // Add the Accommodation to the destination
                     newAccommodation = await plannerViewModel.addAccommodation(
-                      newAccommodation,
-                      destination.destinationId,
-                      user!.id
-                    );
-                    
-                    destination.accommodations.add(newAccommodation.accommodationId); // Add the new Accommodation ID to the destination
+                        newAccommodation, destination.destinationId, user!.id);
+
+                    destination.accommodations.add(newAccommodation
+                        .accommodationId); // Add the new Accommodation ID to the destination
 
                     // Close the form screen
                     Navigator.pop(context);

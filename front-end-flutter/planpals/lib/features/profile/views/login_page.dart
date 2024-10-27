@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -49,6 +50,24 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 // Password Field
                 TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.lock),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an email';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                // Password Field
+                TextFormField(
                   controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
@@ -72,8 +91,8 @@ class LoginPage extends StatelessWidget {
                     // Mark the function as async
                     if (_formKey.currentState?.validate() == true) {
                       // Fetch the user by username and wait for the result
-                      await userViewModel
-                          .login(_usernameController.text);
+                      await userViewModel.login(_usernameController.text,
+                          _emailController.text, _passwordController.text);
 
                       // Check if the user has been fetched successfully
                       if (userViewModel.currentUser != null) {
@@ -92,7 +111,8 @@ class LoginPage extends StatelessWidget {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 15),
                     textStyle: const TextStyle(fontSize: 16),
                   ),
                   child: const Text('Login'),

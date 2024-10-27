@@ -6,14 +6,16 @@ import 'package:planpals/features/profile/views/signup_page.dart';
 import 'package:planpals/features/travel_planner/viewmodels/planner_viewmodel.dart';
 import 'package:planpals/features/travel_planner/views/planners_view.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'firebase_options.dart';
 
-
-void main() {
-  runApp(
-
-     MyApp()
-
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +28,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => PlannerViewModel()),
         ChangeNotifierProvider(create: (context) => UserViewModel()),
       ],
-
       child: SafeArea(
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

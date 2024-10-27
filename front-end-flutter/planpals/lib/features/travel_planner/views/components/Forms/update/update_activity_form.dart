@@ -11,7 +11,11 @@ class CreateActivityForm extends StatefulWidget {
   final Destination destination;
   final Activity activity;
 
-  const CreateActivityForm({super.key, required this.destination, required this.activity,});
+  const CreateActivityForm({
+    super.key,
+    required this.destination,
+    required this.activity,
+  });
 
   @override
   _CreateActivityFormState createState() => _CreateActivityFormState();
@@ -36,11 +40,12 @@ class _CreateActivityFormState extends State<CreateActivityForm> {
 
   @override
   Widget build(BuildContext context) {
-    final PlannerViewModel plannerViewModel = Provider.of<PlannerViewModel>(context, listen: false);
-    final User user = Provider.of<UserViewModel>(context).currentUser!;
+    final PlannerViewModel plannerViewModel =
+        Provider.of<PlannerViewModel>(context, listen: false);
+    final PPUser user = Provider.of<UserViewModel>(context).currentUser!;
     final Destination destination = widget.destination;
     final Activity activity = widget.activity;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Simple Activity Form'),
@@ -81,7 +86,8 @@ class _CreateActivityFormState extends State<CreateActivityForm> {
 
               // Time Field
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Duration in Minutes'),
+                decoration:
+                    const InputDecoration(labelText: 'Duration in Minutes'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -115,7 +121,8 @@ class _CreateActivityFormState extends State<CreateActivityForm> {
                     );
 
                     // Update the Activity
-                    await plannerViewModel.updateActivity(updatedActivity, destination.plannerId, user.id);
+                    await plannerViewModel.updateActivity(
+                        updatedActivity, destination.plannerId, user.id);
 
                     // Close the form screen
                     Navigator.pop(context);

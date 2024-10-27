@@ -10,7 +10,10 @@ import 'package:provider/provider.dart';
 class CreateActivityForm extends StatefulWidget {
   final Destination destination;
 
-  const CreateActivityForm({super.key, required this.destination,});
+  const CreateActivityForm({
+    super.key,
+    required this.destination,
+  });
 
   @override
   _CreateActivityFormState createState() => _CreateActivityFormState();
@@ -24,13 +27,12 @@ class _CreateActivityFormState extends State<CreateActivityForm> {
 
   @override
   Widget build(BuildContext context) {
-
     final PlannerViewModel plannerViewModel =
         Provider.of<PlannerViewModel>(context, listen: false);
-    final User? user = Provider.of<UserViewModel>(context).currentUser;
+    final PPUser? user = Provider.of<UserViewModel>(context).currentUser;
 
     final Destination destination = widget.destination;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Simple Activity Form'),
@@ -71,7 +73,8 @@ class _CreateActivityFormState extends State<CreateActivityForm> {
 
               // Time Field
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Duration in Minutes'),
+                decoration:
+                    const InputDecoration(labelText: 'Duration in Minutes'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -95,15 +98,14 @@ class _CreateActivityFormState extends State<CreateActivityForm> {
 
                     // Create an Activity object
                     Activity newActivity = Activity(
-                      name: _activityNameController.text,
-                      date: _selectedDate!,
-                      duration: double.parse(_selectedDuration!),
-                      destinationId: destination.destinationId);
-                   
+                        name: _activityNameController.text,
+                        date: _selectedDate!,
+                        duration: double.parse(_selectedDuration!),
+                        destinationId: destination.destinationId);
+
                     newActivity = await plannerViewModel.addActivity(
-                        newActivity, destination.plannerId, user!.id
-                    );
-                    
+                        newActivity, destination.plannerId, user!.id);
+
                     destination.activities.add(newActivity.activityId!);
 
                     // Close the form screen

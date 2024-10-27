@@ -21,7 +21,7 @@ class _PlannersViewState extends State<PlannersView> {
     super.initState();
     // Fetch planners when the widget is first created
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      User user =
+      PPUser user =
           Provider.of<UserViewModel>(context, listen: false).currentUser!;
       Provider.of<PlannerViewModel>(context, listen: false)
           .fetchPlannersByUserId(user.id);
@@ -65,7 +65,8 @@ class _PlannersViewState extends State<PlannersView> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const CreatePlannerForm()),
+                MaterialPageRoute(
+                    builder: (context) => const CreatePlannerForm()),
               );
             },
             tooltip: 'Add Travel Planner',

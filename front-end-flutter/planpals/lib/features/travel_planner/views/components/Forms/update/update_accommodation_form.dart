@@ -12,10 +12,12 @@ class UpdateAccommodationForm extends StatefulWidget {
   final Destination destination;
   final Accommodation accommodation;
 
-  const UpdateAccommodationForm({super.key, required this.destination, required this.accommodation});
+  const UpdateAccommodationForm(
+      {super.key, required this.destination, required this.accommodation});
 
   @override
-  _UpdateAccommodationFormState createState() => _UpdateAccommodationFormState();
+  _UpdateAccommodationFormState createState() =>
+      _UpdateAccommodationFormState();
 }
 
 class _UpdateAccommodationFormState extends State<UpdateAccommodationForm> {
@@ -40,11 +42,11 @@ class _UpdateAccommodationFormState extends State<UpdateAccommodationForm> {
 
   @override
   Widget build(BuildContext context) {
-    final PlannerViewModel plannerViewModel = Provider.of<PlannerViewModel>(context, listen: false);
-    final User user = Provider.of<UserViewModel>(context).currentUser!;
+    final PlannerViewModel plannerViewModel =
+        Provider.of<PlannerViewModel>(context, listen: false);
+    final PPUser user = Provider.of<UserViewModel>(context).currentUser!;
     final Destination destination = widget.destination;
     final Accommodation accommodation = widget.accommodation;
-
 
     return Scaffold(
       appBar: AppBar(
@@ -138,8 +140,8 @@ class _UpdateAccommodationFormState extends State<UpdateAccommodationForm> {
                     );
 
                     // Update Accommodation
-                    await plannerViewModel.updateAccommodation(updatedAccommodation, destination.plannerId, user.id);
-
+                    await plannerViewModel.updateAccommodation(
+                        updatedAccommodation, destination.plannerId, user.id);
 
                     // Close the form screen
                     Navigator.pop(context);

@@ -1,16 +1,20 @@
-class User {
+class PPUser {
   final String id;
   final String userName;
   final String preferredName;
+  final String? email;
+  final String? password;
 
-  User({
+  PPUser({
     required this.id,
     required this.userName,
     required this.preferredName,
+    this.email,
+    this.password,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    User user = User(
+  factory PPUser.fromJson(Map<String, dynamic> json) {
+    PPUser user = PPUser(
       id: json['_id'],
       userName: json['userName'],
       preferredName: json['preferredName'],

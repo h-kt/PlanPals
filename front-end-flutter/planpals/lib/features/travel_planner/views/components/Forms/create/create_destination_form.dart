@@ -28,7 +28,7 @@ class _CreateDestinationFormState extends State<CreateDestinationForm> {
   Widget build(BuildContext context) {
     final PlannerViewModel plannerViewModel =
         Provider.of<PlannerViewModel>(context, listen: false);
-    final User? user = Provider.of<UserViewModel>(context).currentUser;
+    final PPUser? user = Provider.of<UserViewModel>(context).currentUser;
 
     final Planner planner = widget.planner;
     final String plannerId = planner.plannerId;
@@ -111,9 +111,11 @@ class _CreateDestinationFormState extends State<CreateDestinationForm> {
                         activities: [],
                         accommodations: []);
 
-                    newDestination = await plannerViewModel.addDestination(newDestination);
-                    
-                    planner.destinations.add(newDestination.destinationId); // Add destination ID to planner
+                    newDestination =
+                        await plannerViewModel.addDestination(newDestination);
+
+                    planner.destinations.add(newDestination
+                        .destinationId); // Add destination ID to planner
 
                     // Close the form screen
                     Navigator.pop(context);

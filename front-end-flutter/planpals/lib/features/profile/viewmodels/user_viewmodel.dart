@@ -1,15 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:planpals/features/profile/services/user_service.dart';
-import '../models/user_model.dart'; // Import your user model
+import '../models/user_model.dart';
+import '../services/firebase_user.dart'; // Import your user model
 
 class UserViewModel extends ChangeNotifier {
   final UserService _userService = UserService();
+  final FirebaseUserService _firebaseUserService = FirebaseUserService();
 
-  User? _user; // Cached user data
+  User? _firebaseUser = FirebaseAuth.instance.currentUser;
+  PPUser? _user; // Cached user data
   bool _isLoading = false; // Loading state
   String? _errorMessage; // Error message
 
-  User? get currentUser => _user; // Get the current user
+  PPUser? get currentUser => _user; // Get the current user
   bool get isLoading => _isLoading; // Get loading state
   String? get errorMessage => _errorMessage; // Get error message
 
@@ -17,16 +21,16 @@ class UserViewModel extends ChangeNotifier {
   // FETCH USER
   //-------------------------------------------
 
-  Future<User?> fetchUserByUserName(String userName) async {
+  Future<PPUser?> fetchUserByUserName(String userName) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
-    User? fetchedUser;
+    PPUser? fetchedUser;
 
     try {
       print("USERVIEWMODEL: FETCHING USER: $userName");
-      fetchedUser= await _userService.fetchUserByUserName(userName);
+      fetchedUser = await _userService.fetchUserByUserName(userName);
       print('USERVIEWMODEL: FETCHED USER: $_user');
     } catch (error) {
       _errorMessage = error.toString();
@@ -43,18 +47,20 @@ class UserViewModel extends ChangeNotifier {
   //-------------------------------------------
 
   // Add a new destination to the planner
-  Future<void> addUser(User user) async {
+  Future<void> addUser(PPUser user) async {
     try {
-      print("USERVIEWMODEL: ADDING USER: $user");
       // Call the service to add the planner
-      _user = await _userService.addUser(user);
-      print("USERVIEWMODEL: ADDED USER AFTER: $user");
+      // _user = await _userService.addUser(user);
+      _firebaseUser =
+          await _firebaseUserService.signUp(user.email, user.password);
+      print("USERVIEWMODEL: ADDED USER: $_firebaseUser");
+      // print("USERVIEWMODEL: ADDED USER AFTER: $user");
 
       // Notify listeners about the change in state
       notifyListeners();
     } catch (e) {
       // Handle the exception and throw an error with a meaningful message
-      throw Exception('Failed to add destination: $e');
+      throw Exception('Failed to add user: $e');
     }
   }
 
@@ -62,8 +68,10 @@ class UserViewModel extends ChangeNotifier {
   // LOGIN LOGOUT
   //-------------------------------------------
 
-  Future<void> login(String userName) async {
-    User? fetched = await fetchUserByUserName(userName);
+  Future<void> login(String userName, String email, String password) async {
+    PPUser? fetched = await fetchUserByUserName(userName);
+    _firebaseUser = await _firebaseUserService.signIn(email, password);
+    print("USERVIEWMODEL: ADDED USER: $_firebaseUser");
     _user = fetched;
     notifyListeners();
   }

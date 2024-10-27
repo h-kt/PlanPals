@@ -5,9 +5,10 @@ import userRouter from './user'
 import { voteRouter } from './vote'
 import { commentRouter } from './comment'
 import RequestUtils from '../utils/RequestUtils'
+import { verifyFirebaseAuth } from '../services/firebase/auth'
 
 const router = express.Router()
-
+router.use(verifyFirebaseAuth)
 router.use('/user', userRouter)
 router.use('/planner', plannerRouter)
 router.use('/vote', voteRouter)

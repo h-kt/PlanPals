@@ -50,9 +50,9 @@ class UserViewModel extends ChangeNotifier {
   Future<void> addUser(PPUser user) async {
     try {
       // Call the service to add the planner
-      // _user = await _userService.addUser(user);
       _firebaseUser =
           await _firebaseUserService.signUp(user.email, user.password);
+      _user = await _userService.addUser(user);
       print("USERVIEWMODEL: ADDED USER: $_firebaseUser");
       // print("USERVIEWMODEL: ADDED USER AFTER: $user");
 
@@ -69,8 +69,8 @@ class UserViewModel extends ChangeNotifier {
   //-------------------------------------------
 
   Future<void> login(String userName, String email, String password) async {
-    PPUser? fetched = await fetchUserByUserName(userName);
     _firebaseUser = await _firebaseUserService.signIn(email, password);
+    PPUser? fetched = await fetchUserByUserName(userName);
     print("USERVIEWMODEL: ADDED USER: $_firebaseUser");
     _user = fetched;
     notifyListeners();

@@ -25,17 +25,20 @@ const verifyFirebaseAuth = async (
   res: Response,
   next: NextFunction,
 ) => {
-  //   const token = req.headers.authorization?.split(' ')[1]
-  //   if (!token) {
-  //     req.body.err = new AuthorizationError({ token: `Token: ${token}` })
-  //     return next(req.body.err)
-  //   }
-  //   const decodedToken = await defaultAuth.verifyIdToken(token).catch(() => {
-  //     req.body.err = new AuthorizationError({ token: `Token: ${token}` })
-  //     return next(req.body.err)
-  //   })
+    const token = req.headers.authorization?.split(' ')[1]
+    console.log("token",token)
+    if (!token) {
+      req.body.err = new AuthorizationError({ token: `Token: ${token}` })
+      return next(req.body.err)
+    }
+    const decodedToken = await defaultAuth.verifyIdToken(token).catch(() => {
+      req.body.err = new AuthorizationError({ token: `Token: ${token}` })
+      return next(req.body.err)
+    })
 
-  //   req.body.out = { ...req.body.out, ...decodedToken }
+    console.log(decodedToken)
+
+    req.body.out = { ...req.body.out, ...decodedToken }
   next()
 }
 

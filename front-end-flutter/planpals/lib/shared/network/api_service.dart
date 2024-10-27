@@ -1,16 +1,26 @@
 import 'dart:convert'; // Import for JSON encoding/decoding
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import '../constants/constants.dart';
 
 class ApiService {
   final String baseUrl = Urls.baseUrl;
 
+  Future<Map<String, String>> _getHeaders() async {
+    final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+  }
+
   // GET request
   Future<http.Response> get(String endpoint) async {
     final url = Uri.parse('$baseUrl$endpoint');
+    final headers = await _getHeaders();
     final http.Response response;
     try {
-      response = await http.get(url);
+      response = await http.get(url, headers: headers);
 
       if (response.statusCode == 200) {
         print("SUCCESS: ${response.body}");
@@ -27,7 +37,9 @@ class ApiService {
   }
 
   // POST request
-  Future<http.Response> post(String endpoint, Map<String, dynamic> jsonData) async {
+  Future<http.Response> post(
+      String endpoint, Map<String, dynamic> jsonData) async {
+    final headers = await _getHeaders();
     final url = Uri.parse('$baseUrl$endpoint');
 
     try {
@@ -35,9 +47,7 @@ class ApiService {
       final response = await http.post(
         url,
         body: jsonEncode(jsonData),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: headers,
       );
 
       _handleResponse(response);
@@ -52,15 +62,15 @@ class ApiService {
 
   // PUT request
 
-  Future<http.Response> patch(String endpoint, Map<String, dynamic> data) async {
+  Future<http.Response> patch(
+      String endpoint, Map<String, dynamic> data) async {
     try {
       final url = Uri.parse('$baseUrl$endpoint');
+      final headers = await _getHeaders();
       final response = await http.patch(
         url,
         body: json.encode(data),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: headers,
       );
 
       // Check for successful response
@@ -75,7 +85,8 @@ class ApiService {
   Future<http.Response> delete(String endpoint) async {
     try {
       final url = Uri.parse('$baseUrl$endpoint');
-      final response = await http.delete(url);
+      final headers = await _getHeaders();
+      final response = await http.delete(url, headers: headers);
 
       // Check for successful response
       _handleResponse(response);

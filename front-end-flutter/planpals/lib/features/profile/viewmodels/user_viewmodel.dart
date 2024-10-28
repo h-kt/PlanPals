@@ -49,18 +49,23 @@ class UserViewModel extends ChangeNotifier {
   // Add a new destination to the planner
   Future<void> addUser(PPUser user) async {
     try {
+      if (user.email == null || user.password == null) {
+        throw ArgumentError('Email and password must not be null');
+      }
       // Call the service to add the planner
-      _firebaseUser =
-          await _firebaseUserService.signUp(user.email, user.password);
+      await _firebaseUserService
+          .signUp(user.email!, user.password!)
+          .then((value) => print("Signed up successfully"))
+          .catchError((errorMessage) => print(errorMessage));
       _user = await _userService.addUser(user);
-      print("USERVIEWMODEL: ADDED USER: $_firebaseUser");
+      // print("USERVIEWMODEL: ADDED USER: $_firebaseUser");
       // print("USERVIEWMODEL: ADDED USER AFTER: $user");
 
       // Notify listeners about the change in state
       notifyListeners();
     } catch (e) {
       // Handle the exception and throw an error with a meaningful message
-      throw Exception('Failed to add user: $e');
+      throw Exception('Failed to add user3: $e');
     }
   }
 

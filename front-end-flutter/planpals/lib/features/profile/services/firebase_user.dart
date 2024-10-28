@@ -23,10 +23,14 @@ class FirebaseUserService {
     return null;
   }
 
-  Future<User?> signUp(String? email, String? password) async {
+  Future<User?> signUp(String email, String password) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email!, password: password!);
+      print('signUp: $email, $password');
+
+      UserCredential userCredential = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      print('UserCredential: $userCredential');
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

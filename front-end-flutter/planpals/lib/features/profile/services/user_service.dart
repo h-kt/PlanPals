@@ -30,10 +30,10 @@ class UserService {
         print('NewUser: $userData');
         return PPUser.fromJson(userData);
       } else {
-        throw Exception('Failed to add user: ${response.statusCode}');
+        throw Exception('Failed to add user1: ${response.statusCode}');
       }
     } on Exception catch (e) {
-      throw Exception('Failed to add user: $e');
+      throw Exception('Failed to add user2: $e');
     }
   }
 }

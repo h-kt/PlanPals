@@ -11,6 +11,8 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  SignUpPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     UserViewModel userViewModel = Provider.of<UserViewModel>(context);
@@ -110,21 +112,21 @@ class SignUpPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState?.validate() == true) {
-                      PPUser? fetchedUser = await userViewModel
-                          .fetchUserByUserName(_usernameController.text);
+                      // PPUser? fetchedUser = await userViewModel
+                      //     .fetchUserByUserName(_usernameController.text);
 
-                      print('SIGN UP: ${userViewModel.currentUser}');
+                      // print('SIGN UP: ${userViewModel.currentUser}');
 
-                      if (fetchedUser != null) {
-                        // User already exists
-                        print('User already exists');
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Username already exists'),
-                          ),
-                        );
-                        return;
-                      }
+                      // if (fetchedUser != null) {
+                      //   // User already exists
+                      //   print('User already exists');
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     const SnackBar(
+                      //       content: Text('Username already exists'),
+                      //     ),
+                      //   );
+                      //   return;
+                      // }
                       // Add user
                       print('Adding user');
                       PPUser user = PPUser(
@@ -134,7 +136,7 @@ class SignUpPage extends StatelessWidget {
                         email: _emailController.text,
                         password: _passwordController.text,
                       );
-                      userViewModel.addUser(user);
+                      await userViewModel.addUser(user);
 
                       // Navigate to the home page
                       Navigator.pushReplacementNamed(context, '/login');
